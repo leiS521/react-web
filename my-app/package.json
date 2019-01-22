@@ -4,14 +4,18 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "antd": "^3.7.3",
+    "antd": "^3.10.2",
     "axios": "^0.18.0",
+    "echarts-for-react": "^2.0.15-beta.0",
+    "qrcode.react": "^0.8.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-eventproxy": "^2.1.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "react-umeditor": "^1.0.2"
+    "react-umeditor": "^1.0.2",
+    "react-zmage": "^0.4.0"
   },
   "scripts": {
     "start": "react-app-rewired start",

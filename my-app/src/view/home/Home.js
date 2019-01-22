@@ -3,57 +3,78 @@
  * by leilei
  */
 import React from 'react';
-import {Icon,Button,Avatar} from 'antd';
+import {Icon, Button, Avatar} from 'antd';
 import BaseComponent from '../commpent/BaseComponent'
+import {Link} from 'react-router-dom';
+import eventProxy from 'react-eventproxy'
 
-export  default class Home extends BaseComponent {
+var QRCode = require('qrcode.react');
+export default class Home extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = {
             data: {},
+            userCode: ''
         }
     }
 
     componentWillMount() {
         this.replaceTologin()
+        //获取用户信息
+        this.getUesInfor()
     }
 
     componentDidMount() {
-        //获取用户信息
-      //  this.getUesInfor()
+
     }
 
     render() {
 
         return (
-            <div style={{width: '100%', height: '90%',position:'absolute',top: 50, backgroundColor: 'white',}}>
-                {/* 渲染home*/}
-                {this.renderHome()}
-                <div style={{clear: 'both'}}></div>
-                {/* 渲染用户使用数*/}
-                {this.renderUse()}
-                <div style={{clear: 'both'}}></div>
-                {/*快捷入口*/}
-                {this.renderFast()}
+            <div>
+                <div style={{width: '100%', height: '90%', backgroundColor: 'white', padding: 20, marginTop: 20}}>
+                    {/* 渲染home*/}
+                    {this.renderHome()}
+                    <div style={{clear: 'both'}}></div>
+                    {/* 渲染用户使用数*/}
+                    {this.renderUse()}
+                    <div style={{clear: 'both'}}></div>
+                    {/*快捷入口*/}
+                    {this.renderFast()}
+
+                    {this.renderLoading()}
+
+                </div>
+                <div style={{width: '100%', textAlign: 'center', padding: 20, backgroundColor: '#f5f5f5'}}>
+                    Copyright MyUserManagement
+                </div>
             </div>
         );
 
     }
 
     //渲染home
-    renderHome(){
-        let data = JSON.parse(localStorage.getItem("userInfor")) ? JSON.parse(localStorage.getItem("userInfor")) : {name: ''}
-        return(
-            <div>
+    renderHome() {
+        return (
+            <div style={{width: '100%', height: '90%', backgroundColor: 'white', padding: 20}}>
                 <div><Icon type={'home'}/> 首页</div>
                 <div style={{marginTop: 30, marginLeft: 10,}}>
-                    <img src="http://www.yuanxin2015.com/MobileBusiness/app/img/office-qrcode.png" alt="logo"
-                         style={{width: '150px', float: 'left'}}/>
+                    <div style={{width: '150px', float: 'left'}}>
+                        <QRCode  className='qr' id='qr'
+                                style={{width: 150, height: 150, backgroundColor: 'red'}} value={this.state.userCode}/>
+                    </div>
+                    {/* <img src="http://www.yuanxin2015.com/MobileBusiness/app/img/office-qrcode.png" alt="logo"
+                         style={{width: '150px', float: 'left'}}/>*/}
 
                     <div style={{float: 'left'}}>
-                        <h3>hello,{data.name}!</h3>
-                        <div>欢迎使用demo管理后台，demo给你<br/>快捷高效的办公体验</div>
-
+                        <h3>
+                            hello,{this.state.data.userName}!—今天是{this.getNowDate() + '—星期' + "日一二三四五六".charAt(new Date().getDay())}</h3>
+                        <div>欢迎使用管理系统管理后台，管理系统给你<br/>快捷高效的办公体验</div>
+                        <Button type="white" onClick={(e) => {
+                            this.downloadImage()
+                        }} style={{marginTop: 20, backgroundColor: '#169BD5', color: 'white'}}>
+                            下载二维码
+                        </Button>
                         <Button type="white" href="http://www.yuanxin2015.com/MobileBusiness/app/office-download.html"
                                 target="_blank" style={{marginTop: 20, backgroundColor: '#169BD5', color: 'white'}}>
                             立即体验
@@ -93,7 +114,7 @@ export  default class Home extends BaseComponent {
                             marginTop: 10
                         }}/>
                         <div onClick={() => {
-                            alert(123)
+                            //alert(123)
                         }} style={{textAlign: 'center', lineHeight: '50px', cursor: 'pointer'}}>查看详情
                         </div>
 
@@ -120,7 +141,7 @@ export  default class Home extends BaseComponent {
                             marginTop: 10
                         }}/>
                         <div onClick={() => {
-                            alert(123)
+                            // alert(123)
                         }} style={{textAlign: 'center', lineHeight: '50px', cursor: 'pointer'}}>查看详情
                         </div>
 
@@ -147,7 +168,7 @@ export  default class Home extends BaseComponent {
                             marginTop: 10
                         }}/>
                         <div onClick={() => {
-                            alert(123)
+                            // alert(123)
                         }} style={{textAlign: 'center', lineHeight: '50px', cursor: 'pointer'}}>查看详情
                         </div>
 
@@ -174,7 +195,7 @@ export  default class Home extends BaseComponent {
                             marginTop: 10
                         }}/>
                         <div onClick={() => {
-                            alert(123)
+                            //alert(123)
                         }} style={{textAlign: 'center', lineHeight: '50px', cursor: 'pointer'}}>查看详情
                         </div>
 
@@ -189,9 +210,18 @@ export  default class Home extends BaseComponent {
 
     //渲染快捷入口
     renderFast() {
+
+        let menusNew = JSON.parse(localStorage.getItem('menu')) // this.strings.menusNew
+        console.log(menusNew)
+        let fastList = [];
+        menusNew && menusNew.forEach((item, index) => {
+            if (index > 0) {
+                fastList = fastList.concat(item.child)
+            }
+        })
         return ( <div style={{paddingRight: 40}}>
                 <div style={{
-                    width: '100%', height: 205, marginTop: 10, float: 'left', marginLeft: 20,
+                    width: '100%', marginTop: 10, marginLeft: 20,
                     border: '1px solid #ECECEC'
                 }}>
 
@@ -199,67 +229,111 @@ export  default class Home extends BaseComponent {
                     <div style={{border: '1px solid #ECECEC'}}/>
                     <div style={{marginTop: 20}}>
 
+                        {fastList.map((item, index) => {
+                            return (<div key={index} style={{
+                                width: '17%',
+                                height: 120,
+                                marginLeft: '2.5%',
+                                float: 'left', verticalAlign: 'middle',
+                                border: '1px solid #ECECEC',
+                                marginBottom: 10,
+                                cursor: 'pointer'
+                            }} onClick={() => this.fast(item)}>
+                                <Link
+                                    to={item.path}
+                                    target={item.target}
+                                >
 
-                        <div style={{
-                            width: '17%',
-                            height: 120,
-                            marginLeft: 30,
-                            float: 'left',
-                            border: '1px solid #ECECEC'
-                        }}>
+                                    <div style={{
+                                        float: 'left',
+                                        backgroundColor: '#108EFF',
+                                        width: 60,
+                                        height: 60,
+                                        borderRadius: 30,
+                                        textAlign: 'center',
+                                        padding: 5,
+                                        marginTop: 30,
+                                        marginLeft: 25
+                                    }}>
+                                        <Icon
+                                            style={{fontSize: '40px', fontWeight: 'bold', color: 'white', marginTop: 5}}
+                                            type={item.icon}/>
+                                    </div>
 
-
-
-                        </div>
-                        <div style={{
-                            width: '17%',
-                            border: '1px solid #ECECEC',
-                            height: 120,
-                            marginLeft:'2.5%',
-                            float: 'left'
-                        }}>
-
-
-
-                        </div>
-                        <div style={{
-                            width: '17%',
-                            border: '1px solid #ECECEC',
-                            height: 120,
-                            marginLeft: '2.5%',
-                            float: 'left'
-                        }}>
-
-
-
-                        </div>
-                        <div style={{
-                            width: '17%',
-                            border: '1px solid #ECECEC',
-                            height: 120,
-                            marginLeft: '2.5%',
-                            float: 'left'
-                        }}>
+                                    <div style={{marginLeft: 95, lineHeight: '120px', color: 'black', fontSize: 13}}>
+                                        {item.title}
+                                    </div>
+                                </Link>
+                            </div>)
+                        })}
 
 
-
-                        </div>
-                        <div style={{
-                            width: '17%',
-                            border: '1px solid #ECECEC',
-                            height: 120,
-                            marginLeft: '2.5%',
-                            float: 'left'
-                        }}>
-
-
-
-                        </div>
+                        <div style={{clear: 'both'}}/>
                     </div>
 
                 </div>
             </div>
         )
+    }
+
+    //获取用户信息
+    getUesInfor() {
+        this.loading && this.loading.show();
+        this.Request({
+            method: 'get',
+            url: this.Apis.GetUserInfor,
+            Success: (date) => {
+                this.loading && this.loading.hide();
+                let data = date[0];
+                this.setState({
+                    data: data,
+                    userCode: data.userCode
+                })
+            },
+            Error: (e) => {
+                this.loading && this.loading.hide();
+            }
+        })
+    }
+
+    //点击快捷入口
+    fast(item) {
+        localStorage.setItem(this.strings.keyEnumeration.menuDefaultSelect, JSON.stringify(item.parentKey));
+        localStorage.setItem(this.strings.keyEnumeration.menuDefaultSelectChild, JSON.stringify(item.key));
+        eventProxy.trigger('refreshMenu');
+    }
+
+    downloadImage() {
+        var base64qr = document.querySelector('#qr').toDataURL()
+        this.downloadFile('签到.png', base64qr)
+    }
+
+    //下载
+    downloadFile(fileName, content) {
+        let aLink = document.createElement('a');
+        let blob = this.base64ToBlob(content); //new Blob([content]);
+
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("click", true, true);//initEvent 不加后两个参数在FF下会报错  事件类型，是否冒泡，是否阻止浏览器的默认行为
+        aLink.download = fileName;
+        aLink.href = URL.createObjectURL(blob);
+
+        // aLink.dispatchEvent(evt);
+        aLink.click()
+    }
+
+    base64ToBlob(code) {
+        let parts = code.split(';base64,');
+        let contentType = parts[0].split(':')[1];
+        let raw = window.atob(parts[1]);
+        let rawLength = raw.length;
+
+        let uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], {type: contentType});
     }
 
 }

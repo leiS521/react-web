@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {HashRouter, Route} from 'react-router-dom';
 import Login from '../view/login/Login'
-import App from '../view/testApp/App'
-import MenusOld from '../view/menu/MenusOld';
 import MenusNew from '../view/menu/MenusNew';
 class Router extends Component {
 
@@ -20,7 +18,6 @@ class Router extends Component {
 
                     <Route exact path="/" component={Login}/>
 
-                    <Route path="/menusOld" component={MenusOld}/>
                     <Route path="/menusNew" component={MenusNew}/>
                     {/* 使用注释掉的路由请在主菜单里去掉link*/}
                     {/* <Route path="/menusNew" component={MenusNew}/>
@@ -107,7 +104,6 @@ class Router extends Component {
                     </Route>*/}
 
 
-                    <Route path="/testApp" component={App}/>
 
 
                 </div>

@@ -5,10 +5,11 @@
  */
 export  const KeyEnumeration = {
     keyEnumeration:{
+        authorization:'authorization',
         userInfor:'userInfor',
         menuDefaultSelect:'menuDefaultSelect',
         parentMenuIndex:'parentMenuIndex',
         menuDefaultSelectChild:'menuDefaultSelectChild',
-
+        keyList:'keyList',
     },
 }

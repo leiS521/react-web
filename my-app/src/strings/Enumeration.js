@@ -24,18 +24,17 @@
         home:'home',
         userManagement:'userManagement',//用户管理
         userManagementChild:{
-            accountManagement:'NewUseManage',//账户管理
-            groupManagement:'groupManagement',//群组管理
-            feedback:'feedback',//意见反馈
-            avatarReview:'avatarReview'//头像审核
+            accountManagement:'accountManagement',//账户管理
+            menuManage:'menuManage',//菜单管理
+            roleManagement:'roleManagement',//角色管理
+            operationLog:'operationLog',//编辑器
         },
         applicationManagement:'applicationManagement',//应用管理
         applicationManagementChild:{
-            meeting:'meeting',//会议
-            activity:'activity',//活动
-            staffAttendance:'staffAttendance',//员工考勤
-            staffAttendanceNew:'staffAttendanceNew',//员工考勤NEW
-            punchLocation:'punchLocation',//打卡地点
+            UploadFile:'UploadFile',//上传文件
+            edit:'edit',//编辑器
+            menuManages:'menuManages',//三级菜单
+            Seats:'seats',//座位分布
             marketingCollege:'marketingCollege',//营销学院
             researchData:'researchData'//客研数据
         },
@@ -46,8 +45,6 @@
             versionManagement:'versionManagement',//版本管理
             informationManagement:'informationManagement',//资讯频道管理
             workPassMenuManagement:'workPassMenuManagement',//工作通菜单管理
-            authorityManagement:'authorityManagement',//权限管理
-            operationLog:'operationLog'//日志管理
         },
         statistics:'statistics',//统计
         statisticsChild:{

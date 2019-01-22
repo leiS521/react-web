@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from '../../image/login/login_logo.png';
+//import logo from '../../image/login/login_logo.png';
 import '../../style/login/Login.css';
-import login_title from '../../image/login/login_title.png';
+//import login_title from '../../image/login/login_title.png';
 
 import BaseComponent from '../commpent/BaseComponent'
 
@@ -16,25 +16,57 @@ class Login extends BaseComponent {
         }
     }
 
+    componentWillMount() {
+        //判断登陆过没有，登陆过直接跳转到首页
+        let tokenInfo=JSON.parse(localStorage.getItem("authorization"))
+        console.log(tokenInfo)
+        if (tokenInfo&& new Date(tokenInfo.expires_time) > new Date()) {
+            //清除主菜单记录存储
+            localStorage.removeItem(this.strings.keyEnumeration.menuDefaultSelect);
+            localStorage.removeItem(this.strings.keyEnumeration.parentMenuIndex);
+            //清除子菜单记录存储
+            localStorage.removeItem(this.strings.keyEnumeration.menuDefaultSelectChild);
+            this.props.history.push({pathname: '/menus/home'})
+        }
+    }
+
+    componentDidMount() {
+        //组件挂载时候，注册keypress事件
+       // document.addEventListener('keypress', this.handleEnterKey)
+    }
+
+    componentWillUmount() {
+        //组件卸载时候，注销keypress事件
+       // document.removeEventListener("keypress", this.handleEenterKey)
+    }
+
+//判断点击的键盘的keyCode是否为13，是就调用上面的搜索函数
+    handleEnterKey = (e) => {
+        if (e.nativeEvent.keyCode === 13) { //主要区别就是这里，可以直接获取到keyCode的值
+            this.submit()
+        }
+    }
+
+
     render() {
         return (
             <div className="login">
-                <div className='sun_logo'>
+                {/*<div className='sun_logo'>
                     <img src={logo} className="" style={{width: "298px",}} alt="logo"/>
-                </div>
+                </div>*/}
 
                 <div className="logo_box ng-scope">
-                    <h3>
+                    {/*<h3>
                         <img src={login_title} alt="远洋移动办公" style={{width: "265px"}}/>
-                    </h3>
+                    </h3>*/}
                     <div className="ng-pristine ng-valid" style={{width: "280px"}}>
                         <div className="input_outer">
                             <span className="username"></span>
-                            <input type="text" placeholder="请输入域帐号"
+                            <input type="text" placeholder="请输入账号"
                                    onChange={(e) => {
                                        this.setState({username: e.target.value})
                                    }}
-
+                                   onKeyPress={this.handleEnterKey}
                                    className="ng-pristine ng-valid"/>
                         </div>
                         <div className="input_outer">
@@ -44,13 +76,11 @@ class Login extends BaseComponent {
 
                                        this.setState({password: e.target.value})
                                    }}
+                                   onKeyPress={this.handleEnterKey}
                                    className="ng-pristine ng-valid"/>
                         </div>
                         <div className="sun_btn">
-                            <button onClick={() => this.submit(1)}>登录新版</button>
-                        </div>
-                        <div className="sun_btn">
-                            <button onClick={() => this.submit(2)}>登录老版</button>
+                            <button  onKeyPress={this.handleEnterKey} onClick={() => this.submit(1)}>登录</button>
                         </div>
                     </div>
                     {this.state.error ? <div className="sun_message ng-binding" style={{fontSize: 14}}>
@@ -59,7 +89,7 @@ class Login extends BaseComponent {
 
                     </div>}
                     <div className="sun_copyright">
-                        海欧云提供计算服务 © 2016-2018
+                        leiTher提供计算服务 © 2018-10-05--
                     </div>
                 </div>
                 {this.renderLoading()}
@@ -70,30 +100,22 @@ class Login extends BaseComponent {
     }
 
 //点击登录按钮
-    submit(key) {
+    submit() {
         let $this = this
        this.loading && this.loading.show();
 
         this.Request({
-            methed: 'get',
-            url: this.Apis.Login + '?name=' + this.state.username + '&password=' + this.state.password,
+            method: 'LogIn',
+            url: this.Apis.loginToken + '?name=' + this.state.username + '&password=' + this.state.password,
             Success: (date) => {
-               this.loading && this.loading.hide();
-                let data = date
-                if (data.length > 0) {
+                if (date) {
                     if (!window.localStorage) {
                         alert("浏览器不支持localstorage");
                         return false;
                     } else {
-                        localStorage.setItem('userInfor', JSON.stringify(data[0]));
-                        //  console.log(JSON.parse(localStorage.getItem("userInfor")))
+                        localStorage.setItem(this.strings.keyEnumeration.authorization, JSON.stringify(date));
+                        this.getMenues('login')
                     }
-                    if(key===1){
-                        this.props.history.push({pathname: '/menusNew', state: {data: data[0]}})
-                    }else{
-                        this.props.history.push({pathname: '/menusOld', state: {data: data[0]}})
-                    }
-
                 }
             },
             Error: (e) => {

@@ -15,30 +15,31 @@ export const MenuString = {
             Icon: 'team',
             title: '用户管理',
             path:'/menusNew/userManagement',
-            child: [{
+            child: [{parentKey:Enumeration.menusNewEnumeration.userManagement,
                 key: Enumeration.menusNewEnumeration.userManagementChild.accountManagement,
                 Icon: 'book',
                 title: '账户管理',
-                path:'/menusNew/userManagement/NewUseManage'
+                path:'/menusNew/userManagement/accountManagement'
             },
-                {
-                    key: Enumeration.menusNewEnumeration.userManagementChild.groupManagement,
+                {parentKey:Enumeration.menusNewEnumeration.userManagement,
+                    key: Enumeration.menusNewEnumeration.userManagementChild.menuManage,
                     Icon: 'team',
-                    title: '编辑器',
-                    path:'/menusNew/userManagement/useEdit'
+                    title: '功能管理',
+                    path:'/menusNew/userManagement/menuManage'
                 },
-                {
-                    key: Enumeration.menusNewEnumeration.userManagementChild.feedback,
-                    Icon: 'question-circle-o',
-                    title: '意见反馈',
-                    path:'/menusNew/userManagement/feedback'
-                },
-                {
-                    key: Enumeration.menusNewEnumeration.userManagementChild.avatarReview,
+                {parentKey:Enumeration.menusNewEnumeration.userManagement,
+                    key: Enumeration.menusNewEnumeration.userManagementChild.roleManagement,
                     Icon: 'user',
-                    title: '头像审核',
-                    path:'/menusNew/userManagement/avatarReview'
-                }
+                    title: '角色管理',
+                    path:'/menusNew/userManagement/roleManagement'
+                },
+                {parentKey:Enumeration.menusNewEnumeration.userManagement,
+                    key: Enumeration.menusNewEnumeration.userManagementChild.operationLog,
+                    Icon: 'message',
+                    title: '操作日志',
+                    path:'/menusNew/userManagement/operationLog'
+                },
+
             ]
         },
         {
@@ -46,45 +47,44 @@ export const MenuString = {
             Icon: 'home',
             title: '应用管理',
             path:'/menusNew/applicationManagement',
-            child: [{
-                key: Enumeration.menusNewEnumeration.applicationManagementChild.meeting,
-                Icon: 'home',
-                title: '会议',
-                path:'/menusNew/applicationManagement/meeting'
+            child: [{parentKey:Enumeration.menusNewEnumeration.applicationManagement,
+                key: Enumeration.menusNewEnumeration.applicationManagementChild.UploadFile,
+                Icon: 'cloud-upload',
+                title: '上传照片',
+                path:'/menusNew/applicationManagement/UploadFile'
             },
-                {
-                    key: Enumeration.menusNewEnumeration.applicationManagementChild.activity,
-                    Icon: 'team',
-                    title: '活动',
-                    path:'/menusNew/applicationManagement/activity'
+                {parentKey:Enumeration.menusNewEnumeration.applicationManagement,
+                    key: Enumeration.menusNewEnumeration.applicationManagementChild.edit,
+                    Icon: 'edit',
+                    title: '编辑器',
+                    path:'/menusNew/applicationManagement/edit'
                 },
-                {
-                    key: Enumeration.menusNewEnumeration.applicationManagementChild.staffAttendance,
-                    Icon: 'area-chart',
-                    title: '员工考勤',
-                    path:'/menusNew/applicationManagement/staffAttendance'
+                {parentKey:Enumeration.menusNewEnumeration.applicationManagement,
+                    key: Enumeration.menusNewEnumeration.applicationManagementChild.menuManages,
+                    Icon: 'setting',
+                    title: '三级菜单',
+                    path:'/menusNew/applicationManagement/menuManages'
                 },
-                {
-                    key: Enumeration.menusNewEnumeration.applicationManagementChild.staffAttendanceNew,
-                    Icon: 'area-chart',
-                    title: '员工考勤new',
-                    path:'/menusNew/applicationManagement/staffAttendanceNew'
-                },
-                {
-                    key: Enumeration.menusNewEnumeration.applicationManagementChild.punchLocation,
-                    Icon: 'home',
-                    title: '打卡地点',
-                    path:'/menusNew/applicationManagement/punchLocation'
+                {parentKey:Enumeration.menusNewEnumeration.applicationManagement,
+                    key: Enumeration.menusNewEnumeration.applicationManagementChild.Seats,
+                    Icon: 'laptop',
+                    title: '座位安排',
+                    path:'/menusNew/applicationManagement/punchLocation',
+                    child:[
+                        {title:'员工考勤'},
+                        {title:'打卡地点'},
+                        {title:'打卡单元管理'}
+                    ]
                 }
                 ,
-                {
+                {parentKey:Enumeration.menusNewEnumeration.applicationManagement,
                     key: Enumeration.menusNewEnumeration.applicationManagementChild.marketingCollege,
                     Icon: 'shopping-cart',
                     title: '营销学院',
                     path:'/menusNew/applicationManagement/marketingCollege'
                 }
                 ,
-                {
+                {parentKey:Enumeration.menusNewEnumeration.applicationManagement,
                     key: Enumeration.menusNewEnumeration.applicationManagementChild.researchData,
                     Icon: 'database',
                     title: '客研数据',
@@ -97,49 +97,38 @@ export const MenuString = {
             Icon: 'home',
             title: '工具',
             path:'/menusNew/tools',
-            child: [{
+            child: [{parentKey:Enumeration.menusNewEnumeration.tools,
                 key: Enumeration.menusNewEnumeration.toolsChild.advertisingManagement,
                 Icon: 'notification',
                 title: '广告管理',
                 path:'/menusNew/tools/advertisingManagement'
             },
-                {
+                {parentKey:Enumeration.menusNewEnumeration.tools,
                     key: Enumeration.menusNewEnumeration.toolsChild.messageManagement,
                     Icon: 'mail',
                     title: '消息管理',
                     path:'/menusNew/tools/messageManagement'
                 },
-                {
+                {parentKey:Enumeration.menusNewEnumeration.tools,
                     key: Enumeration.menusNewEnumeration.toolsChild.versionManagement,
                     Icon: 'tags',
                     title: '版本管理',
                     path:'/menusNew/tools/versionManagement'
                 },
-                {
+                {parentKey:Enumeration.menusNewEnumeration.tools,
                     key: Enumeration.menusNewEnumeration.toolsChild.informationManagement,
                     Icon: 'calendar',
                     title: '咨询频道管理',
                     path:'/menusNew/tools/informationManagement'
                 }
                 ,
-                {
+                {parentKey:Enumeration.menusNewEnumeration.tools,
                     key: Enumeration.menusNewEnumeration.toolsChild.workPassMenuManagement,
                     Icon: 'bars',
                     title: '工作通菜单管理',
                     path:'/menusNew/tools/workPassMenuManagement'
-                },
-                {
-                    key: Enumeration.menusNewEnumeration.toolsChild.authorityManagement,
-                    Icon: 'folder-add',
-                    title: '权限管理',
-                    path:'/menusNew/tools/authorityManagement'
-                },
-                {
-                    key: Enumeration.menusNewEnumeration.toolsChild.operationLog,
-                    Icon: 'copy',
-                    title: '操作日志',
-                    path:'/menusNew/tools/operationLog'
                 }
+
             ]
         },
         {
@@ -147,12 +136,7 @@ export const MenuString = {
             Icon: 'home',
             title: '统计',
             path:'/menusNew/statistics',
-            child: [{
-                key: Enumeration.menusNewEnumeration.statisticsChild.userBehaviorAnalysis,
-                Icon: 'area-chart',
-                title: '用户行为分析',
-                path:'/menusNew/statistics/userBehaviorAnalysis'
-            },
+            child: [
                 {
                     key: Enumeration.menusNewEnumeration.statisticsChild.dataCenter,
                     Icon: 'database',
@@ -163,87 +147,5 @@ export const MenuString = {
         },
 
     ],
-    menus: [
-        {
-            key: Enumeration.menuEnumeration.useManage,
-            Icon: 'team',
-            Title: '用户管理'
-        },
-        {
-            key: 'sub2',
-            Icon: 'team',
-            Title: '用户管理New',
-            child: [{
-                key: Enumeration.menuEnumeration.UseManageNewLIst,
-                Icon: 'desktop',
-                Title: '用户列表',
-            },
-                {
-                    key: Enumeration.menuEnumeration.UseManageNewAdd,
-                    Icon: 'desktop',
-                    Title: '新增用户',
-                }
-            ]
-        },
-        {
-            key: '3',
-            Icon: 'area-chart',
-            Title: '员工考勤'
-        },
-        {
-            key: '4',
-            Icon: 'area-chart',
-            Title: '员工考勤new'
-        },
-        {
-            key: '5',
-            Icon: 'home',
-            Title: '打卡地点'
-        },
-        {
-            key: '6',
-            Icon: 'pie-chart',
-            Title: '用户行为分析'
-        }, {
-            key: '7',
-            Icon: 'bars',
-            Title: '工作菜单'
-        },
-        {
-            key: '8',
-            Icon: 'question-circle-o',
-            Title: '意见反馈'
-        },
-        {
-            key: '9',
-            Icon: 'shopping-cart',
-            Title: '营销学院'
-        },
-        {
-            key: '10',
-            Icon: 'user',
-            Title: '用户头像'
-        }, {
-            key: '11',
-            Icon: 'tags',
-            Title: '版本管理'
-        }, {
-            key: '12',
-            Icon: 'home',
-            Title: '首页频道'
-        }, {
-            key: '13',
-            Icon: 'notification',
-            Title: '广告管理'
-        }, {
-            key: '14',
-            Icon: 'mail',
-            Title: '消息推送'
-        },
-        {
-            key: '15',
-            Icon: 'database',
-            Title: '数据中心'
-        },
-    ]
+
 }

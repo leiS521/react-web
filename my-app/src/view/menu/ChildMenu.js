@@ -7,38 +7,51 @@ import {Menu, Icon, Button} from 'antd';
 import BaseComponent from '../commpent/BaseComponent'
 import {Link} from 'react-router-dom';
 import ChildMenusRouter from'../../router/ChildMenusRouter'
+import eventProxy from 'react-eventproxy'
 let index
+
+let menusNew;
+let keys=''
 export default class ChildMenu extends BaseComponent {
     constructor(props) {
         super(props);
+        menusNew=JSON.parse(localStorage.getItem('menu'))
         index = JSON.parse(localStorage.getItem(this.strings.keyEnumeration.parentMenuIndex)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.parentMenuIndex)) : 0;
-
+        keys=menusNew&&menusNew[index].child?menusNew[index].child[0].key:''
         this.state = {
             collapsed: false,
-            menuDefaultSelectChild: JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) : this.strings.menusNew[index].child[0].key,
+            menuDefaultSelectChild: JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) : keys,
             title: ''
         }
     }
 
     componentWillMount() {
         this.replaceTologin()
+
     }
 
     componentDidMount() {
-        let key = JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) : this.strings.menusNew[index].child[0].key
+       // menusNew=this.strings.menusNew
+        let key = JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) : keys
         this.itemClick({key})
+        eventProxy.on('refreshChildMenu', () => {
+            index = JSON.parse(localStorage.getItem(this.strings.keyEnumeration.parentMenuIndex)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.parentMenuIndex)) : 0;
+            keys=menusNew&&menusNew[index].child?menusNew[index].child[0].key:''
+            let key = JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) ? JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild)) : keys
+            this.itemClick({key})
+        });
     }
 
     render() {
         let chidmenu = []
-        this.strings.menusNew.forEach((item) => {
+        menusNew&&menusNew.forEach((item) => {
             if (item.path === this.props.match.path) {
                 if (item.child && item.child.length) {
                     item.child.forEach((childItem) => {
                         let title = childItem.title
                         let Item = childItem
                         chidmenu.push(
-                            <Menu.Item onClick={({childItem, key, keyPath}) => {
+                            <Menu.Item   onClick={({childItem, key, keyPath}) => {
                                 this.itemClick({childItem, key, keyPath, title})
                             }} key={childItem.key}>
 
@@ -46,7 +59,7 @@ export default class ChildMenu extends BaseComponent {
                                     to={Item.path}
                                 >
 
-                                    <Icon type={childItem.Icon}/>
+                                    <Icon type={childItem.icon}/>
                                     <span> {childItem.title}</span>
                                 </Link>
                             </Menu.Item>
@@ -58,7 +71,7 @@ export default class ChildMenu extends BaseComponent {
 
         })
         return (
-            <div style={{width: '100%', height: '90%', position: 'relative', backgroundColor: 'white',}}>
+            <div style={{width: '100%', height: '90%', position: 'relative', backgroundColor: 'white',marginTop:20,marginBottom:20}}>
 
                 <div style={{
                     float: 'left', width: this.state.collapsed ? '8%' : '11%', position: 'relative',
@@ -69,6 +82,7 @@ export default class ChildMenu extends BaseComponent {
                     </Button>
                     <Menu
                         defaultSelectedKeys={[this.state.menuDefaultSelectChild]}
+                        selectedKeys={[this.state.menuDefaultSelectChild]}
                         mode="inline"
                         theme="light"
                         inlineCollapsed={this.state.collapsed}
@@ -82,10 +96,9 @@ export default class ChildMenu extends BaseComponent {
                     display: 'inline-block',
                     float: 'left'
                 }}>
-                    <div>
                         <ChildMenusRouter/>
-                    </div>
                 </div>
+                <div style={{clear:'both'}} />
             </div>
         );
     }
@@ -100,8 +113,11 @@ export default class ChildMenu extends BaseComponent {
     //点击每一项
     itemClick({key}) {
         this.state.menuDefaultSelectChild = key;
+        if (key !== JSON.parse(localStorage.getItem(this.strings.keyEnumeration.menuDefaultSelectChild))) {
+            //*以后扩展三级菜单的时候都要写上清除三级菜单默认的选中项，是为了每次初始进入都选中三级菜单中的第一个
+            localStorage.removeItem('screenSelect');
+        }
         localStorage.setItem(this.strings.keyEnumeration.menuDefaultSelectChild, JSON.stringify(key));
-
         this.setState({})
     }
 
